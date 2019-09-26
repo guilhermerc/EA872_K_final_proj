@@ -1,6 +1,14 @@
 # Projeto Final de EA872 K (Laboratório de Programação de Software Básico)
 
-TODO: Descrever o projeto
+O objetivo desta primeira versão do projeto é desenvolver um jogo de plataforma
+no estilo Bomberman no qual um jogador deve ser capaz de
+* se mover num mapa composto por blocos de "chão" e de "pilares"
+   (instransponíveis)
+* spawnar bombas e chutá-las 
+* morrer com a explosão da própria bomba
+
+Apesar de não haver nenhum desafio nesta versão, as funcionalidades acima sustentarão a
+versão final do jogo, que será *MMO (massive multiplayer online)*.
 
 ## Planejamento
 
