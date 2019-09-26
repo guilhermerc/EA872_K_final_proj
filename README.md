@@ -17,7 +17,12 @@ TODO: Descrever o projeto
 
 - [ ] "desenhar" bloco do chão com um jogador nas 4 possíveis orientações
 - [ ] "desenhar" bloco do chão com uma bomba
-- [ ] spawnar bomba no bloco dado pela orientação do jogador e fazer ela 
-sumir após n (definir) ticks (por enqt. sem interação jogador - bomba)
+- [ ] spawnar bomba no bloco dado pela orientação do jogador e fazer ela sumir
+  após n (definir) ticks (por enqt. sem interação jogador - bomba)
 
 ### Semana 3: 03/10 -> 09/10 
+
+- [ ] implementar o chute (interação jogador - bomba)
+- [ ] "desenhar" bloco de explosão
+- [ ] implementar a explosão em área (se o jogador estiver dentro da área,
+  morre)
