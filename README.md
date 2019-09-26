@@ -15,4 +15,9 @@ TODO: Descrever o projeto
 
 ### Semana 2: 26/09 -> 02/10
 
+- [ ] "desenhar" bloco do chão com um jogador nas 4 possíveis orientações
+- [ ] "desenhar" bloco do chão com uma bomba
+- [ ] spawnar bomba no bloco dado pela orientação do jogador e fazer ela 
+sumir após n (definir) ticks (por enqt. sem interação jogador - bomba)
+
 ### Semana 3: 03/10 -> 09/10 
