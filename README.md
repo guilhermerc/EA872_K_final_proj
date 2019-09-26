@@ -4,7 +4,7 @@ TODO: Descrever o projeto
 
 ## Planejamento
 
-### - [ ] Semana 1: 19/09 -> 25/09
+### Semana 1: 19/09 -> 25/09
 
 - [ ] fixar um tamanho de tela
 - [ ] fixar um tamanho de bloco 
