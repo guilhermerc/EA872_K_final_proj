@@ -14,7 +14,7 @@ versão final do jogo, que será *MMO (massive multiplayer online)*.
 
 ### Semana 1: 19/09 -> 25/09
 
-- [ ] fixar um tamanho de tela
+- [x] fixar um tamanho de tela
 - [ ] fixar um tamanho de bloco 
 - [ ] fixar um tamanho de mapa
 - [ ] definir um formato de especificação de blocos em arquivos
