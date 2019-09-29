@@ -16,7 +16,7 @@ versão final do jogo, que será *MMO (massive multiplayer online)*.
 
 - [x] fixar um tamanho de tela
 - [x] fixar um tamanho de bloco 
-- [ ] fixar um tamanho de mapa
+- [x] fixar um tamanho de mapa
 - [x] definir um formato de especificação de blocos em arquivos
 - [x] "desenhar" bloco do chão e do pilar (em arquivo .csv)
 - [ ] renderizar mapa
