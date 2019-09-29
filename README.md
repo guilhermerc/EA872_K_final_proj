@@ -23,7 +23,7 @@ versão final do jogo, que será *MMO (massive multiplayer online)*.
 
 ### Semana 2: 26/09 -> 02/10
 
-- [ ] "desenhar" bloco do chão com um jogador nas 4 possíveis orientações
+- [x] "desenhar" bloco do chão com um jogador nas 4 possíveis orientações
 - [ ] "desenhar" bloco do chão com uma bomba
 - [ ] spawnar bomba no bloco dado pela orientação do jogador e fazer ela sumir
   após n (definir) ticks (por enqt. sem interação jogador - bomba)
