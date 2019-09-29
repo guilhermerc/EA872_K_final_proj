@@ -19,7 +19,7 @@ versão final do jogo, que será *MMO (massive multiplayer online)*.
 - [x] fixar um tamanho de mapa
 - [x] definir um formato de especificação de blocos em arquivos
 - [x] "desenhar" bloco do chão e do pilar (em arquivo .csv)
-- [ ] renderizar mapa
+- [x] renderizar mapa
 
 ### Semana 2: 26/09 -> 02/10
 
