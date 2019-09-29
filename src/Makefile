@@ -2,6 +2,7 @@ CC=g++
 CC_FLAGS=-std=c++11 -lncurses
 BIN=main
 
+ELEMENT=element
 SCREEN=screen
 
 RM=rm
@@ -12,12 +13,15 @@ all: $(BIN)
 run: all
 	./$(BIN)
 
-$(BIN): main.cpp $(SCREEN)
-	$(CC) $< $(SCREEN).o $(CC_FLAGS) -o$@ 
+$(BIN): main.cpp $(ELEMENT) $(SCREEN)
+	$(CC) $< $(ELEMENT).o $(SCREEN).o $(CC_FLAGS) -o$@
 
+
+$(ELEMENT): $(ELEMENT).cpp $(ELEMENT).hpp
+	$(CC) -c $< $(CC_FLAGS) -o$@.o
 
 $(SCREEN): screen.cpp screen.hpp
-	$(CC) -c $< -o$@.o
+	$(CC) -c $< $(CC_FLAGS) -o$@.o
 
 clean:
-	$(RM) $(RM_FLAGS) $(BIN) $(SCREEN).o
+	$(RM) $(RM_FLAGS) $(BIN) $(ELEMENT).o $(SCREEN).o
