@@ -1,5 +1,6 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <ncurses.h>
 #include <stdlib.h>
 
 #include "element.hpp"
@@ -70,8 +71,14 @@ void Element::update(char * sprite_path, int x_pos, int y_pos)
     this->read_sprite(sprite_path);
 }
 
-// TODO: Implement this
 void Element::render()
 {
-
+    for(int i = 0; i < this->sprite.l; i++)
+    {
+        for(int j = 0; j < this->sprite.c; j++)
+        {
+            move(this->x_pos + i, this->y_pos + j);
+            echochar(this->sprite.matrix[i][j]);
+        }
+    }
 }
