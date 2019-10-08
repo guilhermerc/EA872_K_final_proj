@@ -1,3 +1,6 @@
+#ifndef ELEMENT_TYPE_HPP
+#define ELEMENT_TYPE_HPP
+
 namespace Model
 {
 
@@ -14,3 +17,5 @@ namespace Model
     };
 
 }
+
+#endif
