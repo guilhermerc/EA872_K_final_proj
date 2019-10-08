@@ -56,15 +56,23 @@ void Game::load_map(char * map_path)
                     type = PILLAR;
                     break;
                 case 'D':
+                    this->player.x_pos = i;
+                    this->player.y_pos = j;
                     type = PLAYER_D;
                     break;
                 case 'L':
+                    this->player.x_pos = i;
+                    this->player.y_pos = j;
                     type = PLAYER_L;
                     break;
                 case 'R':
+                    this->player.x_pos = i;
+                    this->player.y_pos = j;
                     type = PLAYER_R;
                     break;
                 case 'U':
+                    this->player.x_pos = i;
+                    this->player.y_pos = j;
                     type = PLAYER_U;
                     break;
             }
@@ -99,3 +107,70 @@ void Game::render()
         }
     }
 };
+
+void Game::update_player(Controller::ActionType type)
+{
+    switch(type)
+    {
+        case Controller::ActionType::MOVE_UP:
+            // Checks if player is NOT already correctly oriented
+            if(this->map.state[this->player.x_pos][this->player.y_pos] != PLAYER_U)
+                this->map.state[this->player.x_pos][this->player.y_pos] = PLAYER_U;
+            // If the player movement is allowed
+            else if(this->player.x_pos - 1 >= 0)
+            {
+                // Then check if player is trying to move between allowed blocks
+                if(this->map.state[this->player.x_pos - 1][this->player.y_pos] == GROUND)
+                {
+                    this->map.state[this->player.x_pos][this->player.y_pos] = GROUND;
+                    this->map.state[--this->player.x_pos][this->player.y_pos] = PLAYER_U;
+                }
+            }
+            break;
+        case Controller::ActionType::MOVE_RIGHT:
+            // Checks if player is NOT already correctly oriented
+            if(this->map.state[this->player.x_pos][this->player.y_pos] != PLAYER_R)
+                this->map.state[this->player.x_pos][this->player.y_pos] = PLAYER_R;
+            // If the player movement is allowed
+            else if(this->player.y_pos + 1 < this->map.c)
+            {
+                // Then check if player is trying to move between allowed blocks
+                if(this->map.state[this->player.x_pos][this->player.y_pos + 1] == GROUND)
+                {
+                    this->map.state[this->player.x_pos][this->player.y_pos] = GROUND;
+                    this->map.state[this->player.x_pos][++this->player.y_pos] = PLAYER_R;
+                }
+            }
+            break;
+        case Controller::ActionType::MOVE_DOWN:
+            // Checks if player is NOT already correctly oriented
+            if(this->map.state[this->player.x_pos][this->player.y_pos] != PLAYER_D)
+                this->map.state[this->player.x_pos][this->player.y_pos] = PLAYER_D;
+            // If the player movement is allowed
+            else if(this->player.x_pos + 1 < this->map.l)
+            {
+                // Then check if player is trying to move between allowed blocks
+                if(this->map.state[this->player.x_pos + 1][this->player.y_pos] == GROUND)
+                {
+                    this->map.state[this->player.x_pos][this->player.y_pos] = GROUND;
+                    this->map.state[++this->player.x_pos][this->player.y_pos] = PLAYER_D;
+                }
+            }
+            break;
+        case Controller::ActionType::MOVE_LEFT:
+            // Checks if player is NOT already correctly oriented
+            if(this->map.state[this->player.x_pos][this->player.y_pos] != PLAYER_L)
+                this->map.state[this->player.x_pos][this->player.y_pos] = PLAYER_L;
+            // If the player movement is allowed
+            else if(this->player.y_pos - 1 >= 0)
+            {
+                // Then check if player is trying to move between allowed blocks
+                if(this->map.state[this->player.x_pos][this->player.y_pos - 1] == GROUND)
+                {
+                    this->map.state[this->player.x_pos][this->player.y_pos] = GROUND;
+                    this->map.state[this->player.x_pos][--this->player.y_pos] = PLAYER_L;
+                }
+            }
+            break;
+    }
+}

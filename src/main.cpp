@@ -3,6 +3,8 @@
 #include <thread>
 #include <vector>
 
+#include "action_type.hpp"
+#include "action.hpp"
 #include "element.hpp"
 #include "game.hpp"
 #include "keyboard.hpp"
@@ -18,6 +20,9 @@ int main()
     // Maximum height: 44
     // Maximum width: 143
     View::Screen * screen = new View::Screen(44, 143);
+
+
+    Controller::Action * action = new Controller::Action(game);
 
     // TODO: Get map dimensions from Map object
     // TODO: Get border dimensions from its Element object
@@ -43,12 +48,30 @@ int main()
         char c;
         if(keyboard->get_key(&c) == true)
         {
-            move(2, 2);
-            echochar(c);
-            //refresh();
+            switch(c)
+            {
+                case 'w':
+                case 'W':
+                    action->perform(Controller::ActionType::MOVE_UP);
+                    break;
+                case 'd':
+                case 'D':
+                    action->perform(Controller::ActionType::MOVE_RIGHT);
+                    break;
+                case 's':
+                case 'S':
+                    action->perform(Controller::ActionType::MOVE_DOWN);
+                    break;
+                case 'a':
+                case 'A':
+                    action->perform(Controller::ActionType::MOVE_LEFT);
+                    break;
+            }
 
-            if(c == 'q')  break;
+            if(c == 'q' || c == 'Q')  break;
         }
+
+        game->render();
     }
 
 
