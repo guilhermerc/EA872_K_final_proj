@@ -1,9 +1,11 @@
 CC=g++
-CC_FLAGS=-std=c++11 -lncurses
+CC_FLAGS=-std=c++11 -lncurses -lpthread
 BIN=main
 
-GAME=game
 ELEMENT=element
+GAME=game
+KEYBOARD_FUNC=keyboard_func
+KEYBOARD=keyboard
 SCREEN=screen
 
 RM=rm
@@ -14,8 +16,8 @@ all: $(BIN)
 run: all
 	./$(BIN)
 
-$(BIN): main.cpp $(ELEMENT) $(GAME) $(SCREEN)
-	$(CC) $< $(ELEMENT).o $(GAME).o $(SCREEN).o $(CC_FLAGS) -o$@
+$(BIN): main.cpp $(ELEMENT) $(GAME) $(KEYBOARD_FUNC) $(KEYBOARD) $(SCREEN)
+	$(CC) $< $(ELEMENT).o $(GAME).o $(KEYBOARD_FUNC).o $(KEYBOARD).o $(SCREEN).o $(CC_FLAGS) -o$@
 
 ## TODO: Check if it is possible to simplify something using an array
 
@@ -25,8 +27,14 @@ $(ELEMENT): $(ELEMENT).cpp $(ELEMENT).hpp
 $(GAME): $(GAME).cpp $(GAME).hpp element_type.hpp
 	$(CC) -c $< $(CC_FLAGS) -o$@.o
 
+$(KEYBOARD_FUNC): $(KEYBOARD_FUNC).cpp $(KEYBOARD_FUNC).hpp
+	$(CC) -c $< $(CC_FLAGS) -o$@.o
+
+$(KEYBOARD): 	$(KEYBOARD).cpp $(KEYBOARD).hpp
+	$(CC) -c $< $(CC_FLAGS) -o$@.o
+
 $(SCREEN): screen.cpp screen.hpp
 	$(CC) -c $< $(CC_FLAGS) -o$@.o
 
 clean:
-	$(RM) $(RM_FLAGS) $(BIN) $(ELEMENT).o $(GAME).o $(SCREEN).o
+	$(RM) $(RM_FLAGS) $(BIN) $(ELEMENT).o $(GAME).o $(KEYBOARD_FUNC).o $(KEYBOARD).o $(SCREEN).o

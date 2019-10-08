@@ -5,16 +5,19 @@
 
 #include "element.hpp"
 #include "game.hpp"
+#include "keyboard.hpp"
 #include "screen.hpp"
 
 using namespace std;
 
 int main()
 {
+    Model::Game * game = new Model::Game("./assets/map.config");
+    Model::Keyboard * keyboard = new Model::Keyboard();
+
     // Maximum height: 44
     // Maximum width: 143
     View::Screen * screen = new View::Screen(44, 143);
-    Model::Game * game = new Model::Game("./assets/map.config");
 
     // TODO: Get map dimensions from Map object
     // TODO: Get border dimensions from its Element object
@@ -31,12 +34,28 @@ int main()
 
     for(int i = 0; i < 91; i++)
         borders[i]->render();
-
     game->render();
 
+    keyboard->init();
+
+    while(true)
+    {
+        char c;
+        if(keyboard->get_key(&c) == true)
+        {
+            move(2, 2);
+            echochar(c);
+            //refresh();
+
+            if(c == 'q')  break;
+        }
+    }
+
+
     //screen->debug();
-    std::this_thread::sleep_for(std::chrono::milliseconds(120000));
+
     screen->stop();
+    keyboard->stop();
 
     return 0;
 }

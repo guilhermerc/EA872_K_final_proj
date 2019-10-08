@@ -60,6 +60,7 @@ void Screen::init()
     this->set_resolution();
     raw();              // Line buffering disabled
     curs_set(0);        // Do not display cursor
+    noecho();           // Don't echo() while we do getch()
 };
 
 void Screen::stop()
