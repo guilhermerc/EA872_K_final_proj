@@ -29,6 +29,7 @@ namespace Model
         public:
             Game(char * map_path);
             void update_player(Controller::ActionType type);
+            void update_bomb(Controller::ActionType type);
             void render();
     };
 

@@ -22,5 +22,8 @@ void Action::perform(ActionType type)
         case MOVE_LEFT:
             this->game->update_player(type);
             break;
+        case SPAWN_BOMB:
+            this->game->update_bomb(type);
+            break;
     }
 }

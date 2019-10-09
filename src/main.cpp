@@ -66,6 +66,10 @@ int main()
                 case 'A':
                     action->perform(Controller::ActionType::MOVE_LEFT);
                     break;
+                case 'j':
+                case 'J':
+                    action->perform(Controller::ActionType::SPAWN_BOMB);
+                    break;
             }
 
             if(c == 'q' || c == 'Q')  break;

@@ -1,7 +1,9 @@
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+#include <thread>
 
+#include "bomb_explosion_func.hpp"
 #include "game.hpp"
 
 using namespace Model;
@@ -47,7 +49,7 @@ void Game::load_map(char * map_path)
             switch((value.c_str())[0])
             {
                 case 'B':
-                    type = BORDER;
+                    type = BOMB;
                     break;
                 case 'G':
                     type = GROUND;
@@ -85,13 +87,14 @@ void Game::load_map(char * map_path)
 
 void Game::load_sprites()
 {
-    this->elems.insert({BORDER, new Model::Element("./assets/sprites/border.sprite")});
+    this->elems.insert({BOMB, new Model::Element("./assets/sprites/bomb.sprite")});
     this->elems.insert({PILLAR, new Model::Element("./assets/sprites/pillar.sprite")});
     this->elems.insert({GROUND, new Model::Element("./assets/sprites/ground.sprite")});
     this->elems.insert({PLAYER_U, new Model::Element("./assets/sprites/player_u.sprite")});
     this->elems.insert({PLAYER_R, new Model::Element("./assets/sprites/player_r.sprite")});
     this->elems.insert({PLAYER_D, new Model::Element("./assets/sprites/player_d.sprite")});
     this->elems.insert({PLAYER_L, new Model::Element("./assets/sprites/player_l.sprite")});
+
 }
 
 void Game::render()
@@ -172,5 +175,72 @@ void Game::update_player(Controller::ActionType type)
                 }
             }
             break;
+    }
+}
+
+void Game::update_bomb(Controller::ActionType type)
+{
+    bool spawned = false;
+    int x_pos = 0, y_pos = 0;
+    switch(type)
+    {
+        case Controller::ActionType::SPAWN_BOMB:
+            switch(this->map.state[this->player.x_pos][this->player.y_pos])
+            {
+                case PLAYER_U:
+                    if(this->player.x_pos - 1 >= 0)
+                    {
+                        if(this->map.state[this->player.x_pos - 1][this->player.y_pos] == GROUND)
+                        {
+                            this->map.state[this->player.x_pos - 1][this->player.y_pos] = BOMB;
+                            spawned = true;
+                            x_pos = this->player.x_pos - 1;
+                            y_pos = this->player.y_pos;
+                        }
+                    }
+                    break;
+                case PLAYER_R:
+                    if(this->player.y_pos + 1 < this->map.c)
+                    {
+                        if(this->map.state[this->player.x_pos][this->player.y_pos + 1] == GROUND)
+                        {
+                            this->map.state[this->player.x_pos][this->player.y_pos + 1] = BOMB;
+                            spawned = true;
+                            x_pos = this->player.x_pos;
+                            y_pos = this->player.y_pos + 1;
+                        }
+                    }
+                    break;
+                case PLAYER_D:
+                    if(this->player.x_pos + 1 < this->map.l)
+                    {
+                        if(this->map.state[this->player.x_pos + 1][this->player.y_pos] == GROUND)
+                        {
+                            this->map.state[this->player.x_pos + 1][this->player.y_pos] = BOMB;
+                            spawned = true;
+                            x_pos = this->player.x_pos + 1;
+                            y_pos = this->player.y_pos;
+                        }
+                    }
+                    break;
+                case PLAYER_L:
+                    if(this->player.y_pos - 1 >= 0)
+                    {
+                        if(this->map.state[this->player.x_pos][this->player.y_pos - 1] == GROUND)
+                        {
+                            this->map.state[this->player.x_pos][this->player.y_pos - 1] = BOMB;
+                            spawned = true;
+                            x_pos = this->player.x_pos;
+                            y_pos = this->player.y_pos - 1;
+                        }
+                    }
+                    break;
+            }
+    }
+    
+    if(spawned == true)
+    {
+        std::thread thread(bomb_explosion_func, this->map.state, x_pos, y_pos);
+        thread.detach();
     }
 }

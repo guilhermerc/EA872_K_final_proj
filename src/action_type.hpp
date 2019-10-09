@@ -9,7 +9,8 @@ namespace Controller
         MOVE_UP,
         MOVE_RIGHT,
         MOVE_DOWN,
-        MOVE_LEFT
+        MOVE_LEFT,
+        SPAWN_BOMB
     };
 
 }
