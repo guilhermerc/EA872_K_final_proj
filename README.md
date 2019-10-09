@@ -15,7 +15,9 @@ versão final do jogo, que será *MMO (massive multiplayer online)*.
 Para executar o jogo, basta executar o comando `make run`. 
 
 * **w**, **d**, **s** e **a** movimentam o personagem
-* **j** spawna uma bomba (no momento, ilimitado) na orientação do jogador 
+* **j** spawna uma bomba (no momento, ilimitado) na orientação do jogador
+
+![Captura de tela de 2019-10-09 15-19-26](https://user-images.githubusercontent.com/22827202/66509484-85ff8980-eaa9-11e9-9f89-7f9d855f7911.png)
 
 ## Planejamento
 
