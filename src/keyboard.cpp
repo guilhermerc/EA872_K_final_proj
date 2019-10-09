@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "keyboard_func.hpp"
 #include "keyboard.hpp"
 
@@ -14,7 +12,7 @@ Keyboard::Keyboard()
 
 Keyboard::~Keyboard()
 {
-
+    this->stop();
 }
 
 void Keyboard::init()
@@ -28,9 +26,11 @@ void Keyboard::init()
 void Keyboard::stop()
 {
     this->running = false;
-    (this->kboard_thread).join();
+    this->kboard_thread.join();
 }
 
+// Returns 'true' if a non-processed key is buffered, 'false' otherwise. The key
+// is stored in (*c)
 bool Keyboard::get_key(char * c)
 {
     bool status = false;
@@ -40,5 +40,6 @@ bool Keyboard::get_key(char * c)
         this->processed = true;
         status = true;
     }
+
     return status;
 }

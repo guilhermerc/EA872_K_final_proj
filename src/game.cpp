@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iostream>
 #include <stdlib.h>
 #include <thread>
 
@@ -8,13 +7,7 @@
 
 using namespace Model;
 
-Game::Game(char * map_path)
-{
-    this->load_map(map_path);
-    this->load_sprites();
-}
-
-void Game::load_map(char * map_path)
+void Game::load_map(const char * map_path)
 {
     std::ifstream map_file;
     std::string value;
@@ -45,7 +38,6 @@ void Game::load_map(char * map_path)
             getline(map_file, value, delim);
 
             ElementType type;
-            // TODO: REMOVE HARDCODED VALUES
             switch((value.c_str())[0])
             {
                 case 'G':
@@ -53,21 +45,6 @@ void Game::load_map(char * map_path)
                     break;
                 case 'P':
                     type = PILLAR;
-                    break;
-                case 'D':
-                    this->player.x_pos = i;
-                    this->player.y_pos = j;
-                    type = PLAYER_D;
-                    break;
-                case 'L':
-                    this->player.x_pos = i;
-                    this->player.y_pos = j;
-                    type = PLAYER_L;
-                    break;
-                case 'R':
-                    this->player.x_pos = i;
-                    this->player.y_pos = j;
-                    type = PLAYER_R;
                     break;
                 case 'U':
                     this->player.x_pos = i;
@@ -79,6 +56,7 @@ void Game::load_map(char * map_path)
             this->map.state[i][j] = type;
         }
     }
+
     map_file.close();
 }
 
@@ -94,20 +72,13 @@ void Game::load_sprites()
     this->elems.insert({EXPLOSION, new Model::Element("./assets/sprites/explosion.sprite")});
 }
 
-void Game::render()
+Game::Game(const char * map_path)
 {
-    for(int i = 0; i < this->map.l; i++)
-    {
-        for(int j = 0; j < this->map.c; j++)
-        {
-            // TODO: Make render method receive the coordinates arguments
-            // TODO: REMOVE HARDCODED VALUES
-            this->elems[this->map.state[i][j]]->update(4 + 5 * i, 26 + 7 * j);
-            this->elems[this->map.state[i][j]]->render();
-        }
-    }
-};
+    this->load_map(map_path);
+    this->load_sprites();
+}
 
+// Controller
 void Game::update_player(Controller::ActionType type)
 {
     switch(type)
@@ -175,6 +146,7 @@ void Game::update_player(Controller::ActionType type)
     }
 }
 
+// Controller
 void Game::update_bomb(Controller::ActionType type)
 {
     bool spawned = false;
@@ -235,9 +207,25 @@ void Game::update_bomb(Controller::ActionType type)
             }
     }
 
+    // If a bomb was spawned
     if(spawned == true)
     {
-        std::thread thread(bomb_explosion_func, this->map.state, this->map.l, this->map.c, x_pos, y_pos);
-        thread.detach();
+        // Creates a thread to deal with its explosion procedure
+        std::thread new_thread(bomb_explosion_func, this->map.state, this->map.l, this->map.c, x_pos, y_pos);
+        new_thread.detach();
     }
 }
+
+// View
+void Game::render()
+{
+    for(int i = 0; i < this->map.l; i++)
+    {
+        for(int j = 0; j < this->map.c; j++)
+        {
+            // TODO: REMOVE HARDCODED VALUES
+            this->elems[this->map.state[i][j]]->update(4 + 5 * i, 26 + 7 * j);
+            this->elems[this->map.state[i][j]]->render();
+        }
+    }
+};

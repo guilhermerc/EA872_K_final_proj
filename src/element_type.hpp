@@ -4,10 +4,11 @@
 namespace Model
 {
 
+    // Types of elements (blocks)
     enum ElementType
     {
                     // Chars used in map.config
-        BOMB,       
+        BOMB,
         GROUND,     // G
         PILLAR,     // P
         PLAYER_U,   // U

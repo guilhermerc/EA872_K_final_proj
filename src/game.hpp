@@ -20,14 +20,15 @@ namespace Model
             } map;
             struct player
             {
-                int x_pos, y_pos;
+                int x_pos;
+                int y_pos;
             } player;
             std::map<ElementType, Element *> elems;
-            void load_map(char * map_path);
+            void load_map(const char * map_path);
             void load_sprites();
 
         public:
-            Game(char * map_path);
+            Game(const char * map_path);
             void update_player(Controller::ActionType type);
             void update_bomb(Controller::ActionType type);
             void render();

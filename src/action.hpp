@@ -11,10 +11,14 @@ namespace Controller
     {
         private:
             Model::Game * game;
+            // TODO: Think about having references to the threads implementing
+            // bomb explosion
 
         public:
             Action(Model::Game * game);
             ~Action();
+            // TODO: Think about implementing init/stop methods to better handle
+            // the thread that performs bomb explosion
             void perform(ActionType type);
     };
 

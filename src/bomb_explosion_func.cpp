@@ -3,9 +3,18 @@
 
 #include "bomb_explosion_func.hpp"
 
+extern bool finish;
+
+// l: number of map lines
+// c: number of map columns
+// x_pos: bomb x position
+// y_pos: bomb y position
 void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, int y_pos)
 {
-    std::this_thread::sleep_for (std::chrono::milliseconds(5000));
+    // Keeps the bomb "alive" during 2000 seconds
+    std::this_thread::sleep_for (std::chrono::milliseconds(2000));
+
+    // Explosion
 
     state[x_pos][y_pos] = Model::ElementType::EXPLOSION;
 
@@ -15,7 +24,7 @@ void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, i
             state[x_pos - 1][y_pos] == Model::ElementType::PLAYER_R ||
             state[x_pos - 1][y_pos] == Model::ElementType::PLAYER_D ||
             state[x_pos - 1][y_pos] == Model::ElementType::PLAYER_L)
-            exit(0);
+            finish = true;
 
         if(state[x_pos - 1][y_pos] == Model::ElementType::GROUND)
             state[x_pos - 1][y_pos] = Model::ElementType::EXPLOSION;
@@ -27,7 +36,7 @@ void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, i
             state[x_pos + 1][y_pos] == Model::ElementType::PLAYER_R ||
             state[x_pos + 1][y_pos] == Model::ElementType::PLAYER_D ||
             state[x_pos + 1][y_pos] == Model::ElementType::PLAYER_L)
-            exit(0);
+            finish = true;
 
         if(state[x_pos + 1][y_pos] == Model::ElementType::GROUND)
             state[x_pos + 1][y_pos] = Model::ElementType::EXPLOSION;
@@ -39,7 +48,7 @@ void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, i
             state[x_pos][y_pos - 1] == Model::ElementType::PLAYER_R ||
             state[x_pos][y_pos - 1] == Model::ElementType::PLAYER_D ||
             state[x_pos][y_pos - 1] == Model::ElementType::PLAYER_L)
-            exit(0);
+            finish = true;
 
         if(state[x_pos][y_pos - 1] == Model::ElementType::GROUND)
         {
@@ -51,7 +60,7 @@ void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, i
                     state[x_pos][y_pos - 2] == Model::ElementType::PLAYER_R ||
                     state[x_pos][y_pos - 2] == Model::ElementType::PLAYER_D ||
                     state[x_pos][y_pos - 2] == Model::ElementType::PLAYER_L)
-                    exit(0);
+                    finish = true;
 
                 if(state[x_pos][y_pos - 2] == Model::ElementType::GROUND)
                     state[x_pos][y_pos - 2] = Model::ElementType::EXPLOSION;
@@ -65,7 +74,7 @@ void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, i
             state[x_pos][y_pos + 1] == Model::ElementType::PLAYER_R ||
             state[x_pos][y_pos + 1] == Model::ElementType::PLAYER_D ||
             state[x_pos][y_pos + 1] == Model::ElementType::PLAYER_L)
-            exit(0);
+            finish = true;
 
         if(state[x_pos][y_pos + 1] == Model::ElementType::GROUND)
         {
@@ -74,7 +83,7 @@ void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, i
                 state[x_pos][y_pos + 2] == Model::ElementType::PLAYER_R ||
                 state[x_pos][y_pos + 2] == Model::ElementType::PLAYER_D ||
                 state[x_pos][y_pos + 2] == Model::ElementType::PLAYER_L)
-                exit(0);
+                finish = true;
 
             state[x_pos][y_pos + 1] = Model::ElementType::EXPLOSION;
 
@@ -86,7 +95,10 @@ void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, i
         }
     }
 
+    // Keeps the explosion during 1 second
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+
+    // Returns map's original state (before explosion)
 
     state[x_pos][y_pos] = Model::ElementType::GROUND;
 

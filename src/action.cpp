@@ -9,9 +9,11 @@ Action::Action(Model::Game * game)
 
 Action::~Action()
 {
-
+    // this->stop()
+    // It might have this->thread.join()
 }
 
+// Acts like a wrapper/proxy
 void Action::perform(ActionType type)
 {
     switch(type)

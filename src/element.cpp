@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iostream>
 #include <ncurses.h>
 #include <stdlib.h>
 
@@ -7,7 +6,7 @@
 
 using namespace Model;
 
-void Element::read_sprite(char * sprite_path)
+void Element::read_sprite(const char * sprite_path)
 {
     std::ifstream sprite_file;
     std::string value;
@@ -39,17 +38,14 @@ void Element::read_sprite(char * sprite_path)
             this->sprite.matrix[i][j] = (value.c_str())[0];
         }
     }
+
     sprite_file.close();
 }
 
-Element::Element(char * sprite_path)
+Element::Element(const char * sprite_path)
 {
-    this->update(sprite_path, 0, 0);
-}
-
-Element::Element(char * sprite_path, int x_pos, int y_pos)
-{
-    this->update(sprite_path, x_pos, y_pos);
+    this->update(0, 0);
+    this->read_sprite(sprite_path);
 }
 
 Element::~Element()
@@ -63,12 +59,6 @@ void Element::update(int x_pos, int y_pos)
 {
     this->x_pos = x_pos;
     this->y_pos = y_pos;
-}
-
-void Element::update(char * sprite_path, int x_pos, int y_pos)
-{
-    this->update(x_pos, y_pos);
-    this->read_sprite(sprite_path);
 }
 
 void Element::render()

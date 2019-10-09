@@ -9,19 +9,13 @@ namespace View
         private:
             int height, width;
             void set_resolution();
-            void get_resolution();
-
-            void print_resolution();
-            void calibrate();
 
         public:
-            Screen();
             Screen(int heigth, int width);
             ~Screen();
             void init();
             void stop();
-
-            void debug();
+            // TODO: Create a render method that wrappers Game's render method
     };
 
 }

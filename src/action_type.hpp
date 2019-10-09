@@ -3,7 +3,8 @@
 
 namespace Controller
 {
-
+    
+    // Types of action coming from user
     enum ActionType
     {
         MOVE_UP,
