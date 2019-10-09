@@ -48,9 +48,6 @@ void Game::load_map(char * map_path)
             // TODO: REMOVE HARDCODED VALUES
             switch((value.c_str())[0])
             {
-                case 'B':
-                    type = BOMB;
-                    break;
                 case 'G':
                     type = GROUND;
                     break;
@@ -94,7 +91,7 @@ void Game::load_sprites()
     this->elems.insert({PLAYER_R, new Model::Element("./assets/sprites/player_r.sprite")});
     this->elems.insert({PLAYER_D, new Model::Element("./assets/sprites/player_d.sprite")});
     this->elems.insert({PLAYER_L, new Model::Element("./assets/sprites/player_l.sprite")});
-
+    this->elems.insert({EXPLOSION, new Model::Element("./assets/sprites/explosion.sprite")});
 }
 
 void Game::render()
@@ -237,10 +234,10 @@ void Game::update_bomb(Controller::ActionType type)
                     break;
             }
     }
-    
+
     if(spawned == true)
     {
-        std::thread thread(bomb_explosion_func, this->map.state, x_pos, y_pos);
+        std::thread thread(bomb_explosion_func, this->map.state, this->map.l, this->map.c, x_pos, y_pos);
         thread.detach();
     }
 }

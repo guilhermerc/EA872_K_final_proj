@@ -3,6 +3,6 @@
 
 #include "element_type.hpp"
 
-void bomb_explosion_func(Model::ElementType ** state, int x_pos, int y_pos);
+void bomb_explosion_func(Model::ElementType ** state, int l, int c, int x_pos, int y_pos);
 
 #endif

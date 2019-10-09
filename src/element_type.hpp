@@ -7,13 +7,14 @@ namespace Model
     enum ElementType
     {
                     // Chars used in map.config
-        BOMB,       // B
+        BOMB,       
         GROUND,     // G
         PILLAR,     // P
         PLAYER_U,   // U
         PLAYER_R,   // R
         PLAYER_D,   // D
-        PLAYER_L    // L
+        PLAYER_L,   // L
+        EXPLOSION
     };
 
 }

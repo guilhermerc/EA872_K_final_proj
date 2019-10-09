@@ -32,6 +32,6 @@ versão final do jogo, que será *MMO (massive multiplayer online)*.
 ### Semana 3: 03/10 -> 09/10 
 
 - [ ] implementar o chute (interação jogador - bomba)
-- [ ] "desenhar" bloco de explosão
-- [ ] implementar a explosão em área (se o jogador estiver dentro da área,
+- [x] "desenhar" bloco de explosão
+- [x] implementar a explosão em área (se o jogador estiver dentro da área,
   morre)
