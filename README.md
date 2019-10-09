@@ -10,6 +10,13 @@ no estilo Bomberman no qual um jogador deve ser capaz de
 Apesar de não haver nenhum desafio nesta versão, as funcionalidades acima sustentarão a
 versão final do jogo, que será *MMO (massive multiplayer online)*.
 
+## Como jogar a versão atual
+
+Para executar o jogo, basta executar o comando `make run`. 
+
+* **w**, **d**, **s** e **a** movimentam o personagem
+* **j** spawna uma bomba (no momento, ilimitado) na orientação do jogador 
+
 ## Planejamento
 
 ### Semana 1: 19/09 -> 25/09
