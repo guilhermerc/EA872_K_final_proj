@@ -5,12 +5,41 @@
 #include "keyboard.hpp"
 #include "screen.hpp"
 
+#include <stdio.h>
+#include <unistd.h>     // #
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h> // #
+#include <arpa/inet.h>  // #
+
 using namespace std;
 
 bool finish = false;
 
 int main()
 {
+    // ########## SOCKET RELATED CODE ##########
+    int socket_fd;
+    struct sockaddr_in target;
+
+    socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+    printf("Socket created!\n");
+
+    target.sin_family = AF_INET;
+    target.sin_port = htons(3001);
+    inet_aton("127.0.0.1", &(target.sin_addr));
+
+    printf("Attempting to connect to server...\n");
+    while(connect(socket_fd, (struct sockaddr*) &target, sizeof(target)) != 0)
+    {
+        printf("Connection problem. Trying again in 1 sec...\n");
+        sleep(1);
+    }
+    printf("Connection to server stablished!\n");
+
+    sleep(2);
+    // ########## SOCKET RELATED CODE ##########
+
     // Model objects
     // Although these objects have some View/Controller methods, they are
     // intended to be used as interfaces to objects related to these components
@@ -75,6 +104,10 @@ int main()
         // If there's a new key to be processed ('true')
         if(keyboard->get_key(&c) == true)
         {
+            move(21, 79);
+            echochar(c);
+            echochar(' ');
+
             switch(c)
             {
                 case 'w':
@@ -86,6 +119,9 @@ int main()
                     action->perform(Controller::ActionType::MOVE_UP);
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
+
+                    send(socket_fd, "w", 2, 0);
+
                     break;
                 case 'd':
                 case 'D':
@@ -96,6 +132,8 @@ int main()
                     action->perform(Controller::ActionType::MOVE_RIGHT);
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
+
+                    send(socket_fd, "d", 2, 0);
 
                     break;
                 case 's':
@@ -108,6 +146,8 @@ int main()
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+                    send(socket_fd, "s", 2, 0);
+
                     break;
                 case 'a':
                 case 'A':
@@ -118,6 +158,8 @@ int main()
                     action->perform(Controller::ActionType::MOVE_LEFT);
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
+
+                    send(socket_fd, "a", 2, 0);
 
                     break;
                 case 'j':
@@ -130,16 +172,18 @@ int main()
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+                    send(socket_fd, "j", 2, 0);
+
                     break;
             }
 
             // Quits the game
-            if(c == 'q' || c == 'Q')  break;
+            if(c == 'q' || c == 'Q')
+            {
+                send(socket_fd, "q", 2, 0);
+                break;
+            }
         }
-
-        move(21, 79);
-        echochar(c);
-        echochar(' ');
 
         // Refreshing the screen at most 200 times per second
         std::this_thread::sleep_for (std::chrono::milliseconds(5));
@@ -151,6 +195,8 @@ int main()
         */
         // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
     }
+
+    close(socket_fd);
 
     keyboard->stop();
     screen->stop();
