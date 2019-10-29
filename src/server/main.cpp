@@ -17,7 +17,7 @@ int main()
     // Model objects
     // Although these objects have some View/Controller methods, they are
     // intended to be used as interfaces to objects related to these components
-    Model::Game * game = new Model::Game("./assets/map.config");
+    Model::Game * game = new Model::Game("../assets/map.config");
     Model::Keyboard * keyboard = new Model::Keyboard();
 
     // View objects
@@ -35,7 +35,7 @@ int main()
     vector<Model::Element *> borders;
     for(int i = 0; i < 91; i++)
     {
-        borders.push_back(new Model::Element("./assets/sprites/border.sprite"));
+        borders.push_back(new Model::Element("../assets/sprites/border.sprite"));
         (borders.back())->update(3 + 5 * (i / 13), 25 + 7 * (i % 13));
     }
 
