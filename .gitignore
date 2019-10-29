@@ -1,3 +1,5 @@
 .local
 /src/server/main
 /src/server/*.o
+/src/client/main
+/src/client/*.o
