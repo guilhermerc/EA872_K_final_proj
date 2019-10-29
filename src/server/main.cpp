@@ -5,8 +5,15 @@
 #include "action.hpp"
 #include "element.hpp"
 #include "game.hpp"
-#include "keyboard.hpp"
+// #include "keyboard.hpp"
 #include "screen.hpp"
+
+#include <stdio.h>
+#include <unistd.h>     // #
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h> // #
+#include <arpa/inet.h>  // #
 
 using namespace std;
 
@@ -18,7 +25,12 @@ int main()
     // Although these objects have some View/Controller methods, they are
     // intended to be used as interfaces to objects related to these components
     Model::Game * game = new Model::Game("../assets/map.config");
+
+    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
+    /*
     Model::Keyboard * keyboard = new Model::Keyboard();
+    */
+    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
 
     // View objects
     // Maximum height: 44
@@ -39,12 +51,16 @@ int main()
         (borders.back())->update(3 + 5 * (i / 13), 25 + 7 * (i % 13));
     }
 
-
     // Intializing objects
     // game->init();
     // action->init();
     screen->init();
+
+    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
+    /*
     keyboard->init();
+    */
+    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
 
     // TODO: Call this from Screen object
     for(int i = 0; i < 91; i++)
@@ -54,7 +70,7 @@ int main()
     {
         char c;
         // If there's a new key to be processed ('true')
-        if(keyboard->get_key(&c) == true)
+        if(false)   // TODO
         {
             switch(c)
             {
@@ -95,7 +111,12 @@ int main()
         game->render();
     }
 
+    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
+    /*
     keyboard->stop();
+    */
+    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
+
     screen->stop();
     // action->stop();
     // game->stop();
