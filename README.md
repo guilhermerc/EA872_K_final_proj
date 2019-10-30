@@ -10,9 +10,12 @@ no estilo Bomberman no qual um jogador deve ser capaz de
 Apesar de não haver nenhum desafio nesta versão, as funcionalidades acima sustentarão a
 versão final do jogo, que será *MMO (massive multiplayer online)*.
 
-## Como jogar a versão atual
+## Como jogar a versão cliente - servidor 
 
-Para executar o jogo, basta executar o comando `make run`. 
+Para executar o cliente, basta executar o comando `make run -C client/`.
+Para executar o servidor, basta executar o comando `make run -C server/`.
+
+No cliente:
 
 * **w**, **d**, **s** e **a** movimentam o personagem
 * **j** spawna uma bomba (no momento, ilimitado) na orientação do jogador
