@@ -94,7 +94,7 @@ int main()
     */
     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
-    move(21, 60);
+    move(0, 0);
     printw("The pressed key is ");
     attron(A_BOLD);
 
@@ -104,7 +104,7 @@ int main()
         // If there's a new key to be processed ('true')
         if(keyboard->get_key(&c) == true)
         {
-            move(21, 79);
+            move(0, 19);
             echochar(c);
             echochar(' ');
 
