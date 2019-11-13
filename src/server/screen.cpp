@@ -23,6 +23,9 @@ Screen::~Screen()
 void Screen::init()
 {
     initscr();              // Start curses mode
+
+	start_color();			/* Start color 			*/
+
     this->set_resolution();
     raw();                  // Line buffering disabled
     curs_set(0);            // Do not display cursor

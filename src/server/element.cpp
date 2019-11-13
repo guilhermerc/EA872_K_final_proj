@@ -42,8 +42,10 @@ void Element::read_sprite(const char * sprite_path)
     sprite_file.close();
 }
 
-Element::Element(const char * sprite_path)
+Element::Element(const char * sprite_path, ElementType et)
 {
+	this->et = et;
+
     this->update(0, 0);
     this->read_sprite(sprite_path);
 }
@@ -63,6 +65,27 @@ void Element::update(int x_pos, int y_pos)
 
 void Element::render()
 {
+	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+	init_pair(3, COLOR_GREEN, COLOR_BLACK);
+	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+	if(this->et == ElementType::PLAYER_U ||
+		this->et == ElementType::PLAYER_R ||
+		this->et == ElementType::PLAYER_D ||
+		this->et == ElementType::PLAYER_L)
+	{
+		attron(COLOR_PAIR(1));
+	}
+	else if(this->et == ElementType::BOMB ||
+			this->et == ElementType::EXPLOSION)
+	{
+		attron(COLOR_PAIR(2));
+	}
+	else
+	{
+		attron(COLOR_PAIR(3));
+	}
+
     for(int i = 0; i < this->sprite.l; i++)
     {
         for(int j = 0; j < this->sprite.c; j++)
@@ -71,4 +94,21 @@ void Element::render()
             echochar(this->sprite.matrix[i][j]);
         }
     }
+
+	if(this->et == ElementType::PLAYER_U ||
+		this->et == ElementType::PLAYER_R ||
+		this->et == ElementType::PLAYER_D ||
+		this->et == ElementType::PLAYER_L)
+	{
+		attroff(COLOR_PAIR(1));
+	}
+	else if(this->et == ElementType::BOMB ||
+			this->et == ElementType::EXPLOSION)
+	{
+		attroff(COLOR_PAIR(2));
+	}
+	else
+	{
+		attroff(COLOR_PAIR(3));
+	}
 }

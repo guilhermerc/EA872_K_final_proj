@@ -1,6 +1,8 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
+#include "element_type.hpp"
+
 namespace Model
 {
 
@@ -16,10 +18,13 @@ namespace Model
                 int l, c;
                 char ** matrix;
             } sprite;
+
+		ElementType et;
+
             void read_sprite(const char * sprite_path);
 
         public:
-            Element(const char * sprite_path);
+            Element(const char * sprite_path, ElementType et);
             ~Element();
             // TODO: update and render should merge, as there's no need to hold
             // x_pos and y_pos

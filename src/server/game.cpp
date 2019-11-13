@@ -62,14 +62,14 @@ void Game::load_map(const char * map_path)
 
 void Game::load_sprites()
 {
-    this->elems.insert({BOMB, new Model::Element("../assets/sprites/bomb.sprite")});
-    this->elems.insert({PILLAR, new Model::Element("../assets/sprites/pillar.sprite")});
-    this->elems.insert({GROUND, new Model::Element("../assets/sprites/ground.sprite")});
-    this->elems.insert({PLAYER_U, new Model::Element("../assets/sprites/player_u.sprite")});
-    this->elems.insert({PLAYER_R, new Model::Element("../assets/sprites/player_r.sprite")});
-    this->elems.insert({PLAYER_D, new Model::Element("../assets/sprites/player_d.sprite")});
-    this->elems.insert({PLAYER_L, new Model::Element("../assets/sprites/player_l.sprite")});
-    this->elems.insert({EXPLOSION, new Model::Element("../assets/sprites/explosion.sprite")});
+    this->elems.insert({BOMB, new Model::Element("../assets/sprites/bomb.sprite", Model::ElementType::BOMB)});
+    this->elems.insert({PILLAR, new Model::Element("../assets/sprites/pillar.sprite", Model::ElementType::PILLAR)});
+    this->elems.insert({GROUND, new Model::Element("../assets/sprites/ground.sprite", Model::ElementType::GROUND)});
+    this->elems.insert({PLAYER_U, new Model::Element("../assets/sprites/player_u.sprite", Model::ElementType::PLAYER_U)});
+    this->elems.insert({PLAYER_R, new Model::Element("../assets/sprites/player_r.sprite", Model::ElementType::PLAYER_R)});
+    this->elems.insert({PLAYER_D, new Model::Element("../assets/sprites/player_d.sprite", Model::ElementType::PLAYER_D)});
+    this->elems.insert({PLAYER_L, new Model::Element("../assets/sprites/player_l.sprite", Model::ElementType::PLAYER_L)});
+    this->elems.insert({EXPLOSION, new Model::Element("../assets/sprites/explosion.sprite", Model::ElementType::EXPLOSION)});
 }
 
 Game::Game(const char * map_path)
