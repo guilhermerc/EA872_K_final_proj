@@ -100,14 +100,30 @@ int main()
 
     while(!finish)
     {
+        string buffer;
+        /*
+        ########## REMOVE ##########
         char c;
-        // If there's a new key to be processed ('true')
-        if(keyboard->get_key(&c) == true)
-        {
-            move(0, 19);
-            echochar(c);
-            echochar(' ');
+        ########## REMOVE ##########
+        */
 
+        // If there's a new key to be processed ('true')
+        /*
+        ########## REMOVE ##########
+        if(keyboard->get_key(&c) == true)
+        ########## REMOVE ##########
+        */
+        if(keyboard->is_there_a_new_key() == true)
+        {
+            // ########## DEBUG PURPOSES ONLY ##########
+            move(0, 19);
+            echochar(keyboard->get_key());
+            // ########## DEBUG PURPOSES ONLY ##########
+
+            buffer = keyboard->serialize();
+            send(socket_fd, buffer.c_str(), 128, 0);
+
+            /* ########## REMOVE ##########
             switch(c)
             {
                 case 'w':
@@ -120,6 +136,7 @@ int main()
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+                    /* ########## REMOVE ##########
                     send(socket_fd, "w", 2, 0);
 
                     break;
@@ -133,6 +150,7 @@ int main()
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+                    /* ########## REMOVE ##########
                     send(socket_fd, "d", 2, 0);
 
                     break;
@@ -146,6 +164,7 @@ int main()
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+                    /* ########## REMOVE ##########
                     send(socket_fd, "s", 2, 0);
 
                     break;
@@ -159,6 +178,7 @@ int main()
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+                    /* ########## REMOVE ##########
                     send(socket_fd, "a", 2, 0);
 
                     break;
@@ -172,17 +192,22 @@ int main()
                     */
                     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+                    /* ########## REMOVE ##########
                     send(socket_fd, "j", 2, 0);
 
                     break;
             }
 
             // Quits the game
+            /* ########## REMOVE ##########
             if(c == 'q' || c == 'Q')
             {
                 send(socket_fd, "q", 2, 0);
                 break;
             }
+
+        }
+        */
         }
 
         // Refreshing the screen at most 200 times per second
