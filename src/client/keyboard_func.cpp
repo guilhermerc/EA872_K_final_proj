@@ -14,7 +14,8 @@ void keyboard_func(char * key, bool * processed, bool * running)
         if((*processed) == true)
         {
             c = getch();
-            if(c != ERR)
+            if(c != ERR && c >= 0 && c <= 127)  // 0 - 127 correspond to ASCII
+                                                // (not extended) chars
             {
                 (*key) = c;
                 (*processed) = false;
