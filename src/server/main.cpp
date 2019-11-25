@@ -6,6 +6,7 @@
 #include "action.hpp"
 #include "element.hpp"
 #include "game.hpp"
+#include "keyboard.hpp"
 #include "screen.hpp"
 
 #include <stdio.h>
@@ -25,7 +26,7 @@ int main()
     int socket_fd, connection_fd;
     struct sockaddr_in myself, client;
     socklen_t client_size = (socklen_t) sizeof(client);
-    char input_buffer[10];
+    char input_buffer[128];
 
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     printf("Socket created!\n");
@@ -59,11 +60,9 @@ int main()
     // intended to be used as interfaces to objects related to these components
     Model::Game * game = new Model::Game("../assets/map.config");
 
-    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
-    /*
+    // ########## MIGHT BE USED ON SERVER ##########
     Model::Keyboard * keyboard = new Model::Keyboard();
-    */
-    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
+    // ########## MIGHT BE USED ON SERVER ##########
 
     // View objects
     // Maximum height: 44
@@ -89,11 +88,9 @@ int main()
     // action->init();
     screen->init();
 
-    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
-    /*
+    // ########## MIGHT BE USED ON SERVER ##########
     keyboard->init();
-    */
-    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
+    // ########## MIGHT BE USED ON SERVER ##########
 
     // TODO: Call this from Screen object
     for(int i = 0; i < 91; i++)
@@ -101,6 +98,8 @@ int main()
 
     while(!finish)
     {
+        bool quit = false;
+
         move(0, 0); echochar('-');
 
         // Refreshing the screen at most 200 times per second
@@ -108,10 +107,14 @@ int main()
         // TODO: Call this from Screen object
         game->render();
 
-        recv(connection_fd, input_buffer, 10, 0);
+        recv(connection_fd, input_buffer, 128, 0);
 
+        /* ########## REMOVE ##########
         char c = input_buffer[0];
         move(0, 0); echochar(c);
+        */ // ########## REMOVE ##########
+
+        keyboard->unserialize(input_buffer);
 
         // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
         // If there's a new key to be processed ('true')
@@ -121,7 +124,7 @@ int main()
         */
         // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
 
-        switch(c)
+        switch(keyboard->get_key())
         {
             case 'w':
             case 'W':
@@ -148,10 +151,14 @@ int main()
                 // Player spawns bomb in its orientation, if possible
                 action->perform(Controller::ActionType::SPAWN_BOMB);
                 break;
+            case 'q':
+            case 'Q':
+                quit = true;
+                break;
         }
 
         // Quits the game
-        if(c == 'q' || c == 'Q')  break;
+        if(quit == true)  break;
 
         // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
         /*
@@ -160,15 +167,12 @@ int main()
         // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
     }
 
-    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
-    /*
-    keyboard->stop();
-    */
-    // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
-
     close(connection_fd);
     close(socket_fd);
 
+    // ########## MIGHT BE USED ON SERVER ##########
+    keyboard->stop();
+    // ########## MIGHT BE USED ON SERVER ##########
     screen->stop();
     // action->stop();
     // game->stop();

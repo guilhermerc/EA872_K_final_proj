@@ -1,3 +1,8 @@
+#include <ncurses.h>
+
+#include "json.hpp"
+using json = nlohmann::json;
+
 #include "keyboard_func.hpp"
 #include "keyboard.hpp"
 
@@ -29,17 +34,37 @@ void Keyboard::stop()
     this->kboard_thread.join();
 }
 
-// Returns 'true' if a non-processed key is buffered, 'false' otherwise. The key
-// is stored in (*c)
-bool Keyboard::get_key(char * c)
+// Returns 'true' if a non-processed key is buffered, 'false' otherwise.
+bool Keyboard::is_there_a_new_key()
 {
-    bool status = false;
-    if(this->processed == false)
-    {
-        (*c) = this->key;
-        this->processed = true;
-        status = true;
-    }
+    return !this->processed;
+}
 
-    return status;
+// ########## DEBUG PURPOSES ONLY ##########
+char Keyboard::get_key()
+{
+    return this->key;
+}
+// ########## DEBUG PURPOSES ONLY ##########
+
+std::string Keyboard::serialize()
+{
+    json j;
+
+    j["key"] = this->key;
+    this->processed = true;
+
+    // ########## DEBUG PURPOSES ONLY ##########
+    move(1, 19); printw("                    ");
+    move(1, 19); printw(j.dump().c_str());
+    // ########## DEBUG PURPOSES ONLY ##########
+
+    return j.dump();
+}
+
+void Keyboard::unserialize(char * buffer)
+{
+    json j;
+    j = json::parse(buffer);
+    j["key"].get_to(this->key);
 }
