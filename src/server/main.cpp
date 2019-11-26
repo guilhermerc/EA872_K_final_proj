@@ -1,3 +1,4 @@
+#include <iostream>
 #include <ncurses.h>
 #include <thread>
 #include <vector>
@@ -6,6 +7,7 @@
 #include "action.hpp"
 #include "element.hpp"
 #include "game.hpp"
+#include "game_send_func.hpp"
 #include "keyboard.hpp"
 #include "screen.hpp"
 
@@ -76,44 +78,58 @@ int main()
     // TODO: Encapsulate this inside Game class
     // TODO: Renderize efficiently (only load the border sprite once)
     // Allocating borders
+    /*
     vector<Model::Element *> borders;
     for(int i = 0; i < 91; i++)
     {
         borders.push_back(new Model::Element("../assets/sprites/border.sprite", Model::ElementType::GROUND));
         (borders.back())->update(3 + 5 * (i / 13), 25 + 7 * (i % 13));
     }
+    */
 
     // Intializing objects
     // game->init();
     // action->init();
+    /*
     screen->init();
+    */
 
     // ########## MIGHT BE USED ON SERVER ##########
     keyboard->init();
     // ########## MIGHT BE USED ON SERVER ##########
 
     // TODO: Call this from Screen object
+    /*
     for(int i = 0; i < 91; i++)
         borders[i]->render();
+    */
+
+    std::thread new_thread(game_send_func, connection_fd, game);
 
     while(!finish)
     {
         bool quit = false;
-
-        move(0, 0); echochar('-');
+        string buffer_in, buffer_out;
 
         // Refreshing the screen at most 200 times per second
-        std::this_thread::sleep_for (std::chrono::milliseconds(5));
+        std::this_thread::sleep_for (std::chrono::milliseconds(200));
         // TODO: Call this from Screen object
-        game->render();
 
-        recv(connection_fd, input_buffer, 128, 0);
+        /* ########## REMOVE ##########
+        game->render();
+        buffer_out = game->serialize();
+        send(connection_fd, buffer_out.c_str(), 512, 0);
+        */ // ########## REMOVE ##########
+
 
         /* ########## REMOVE ##########
         char c = input_buffer[0];
         move(0, 0); echochar(c);
         */ // ########## REMOVE ##########
 
+        // cout << input_buffer << endl;
+
+        recv(connection_fd, input_buffer, 128, 0);
         keyboard->unserialize(input_buffer);
 
         // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
@@ -159,6 +175,17 @@ int main()
 
         // Quits the game
         if(quit == true)  break;
+
+
+        // ########## DEBUG ##########
+        //move(0, 0);
+        //printw(buffer.c_str());
+        // ########## DEBUG ##########
+
+        // ########## DEBUG ##########
+        // game->unserialize(buffer);
+        // game->render();
+        // ########## DEBUG ##########
 
         // ########## NOT GOING TO BE USED ON SERVER (AT LEAST BY NOW) ##########
         /*

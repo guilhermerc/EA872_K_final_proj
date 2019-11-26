@@ -3,3 +3,4 @@
 /src/server/*.o
 /src/client/main
 /src/client/*.o
+/src/common/*.o

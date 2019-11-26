@@ -2,6 +2,8 @@
 #include <thread>
 #include <vector>
 
+#include "game.hpp"
+#include "game_recv_func.hpp"
 #include "keyboard.hpp"
 #include "screen.hpp"
 
@@ -45,9 +47,9 @@ int main()
     // intended to be used as interfaces to objects related to these components
 
     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
-    /*
+
     Model::Game * game = new Model::Game("../assets/map.config");
-    */
+
     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
     Model::Keyboard * keyboard = new Model::Keyboard();
@@ -68,14 +70,14 @@ int main()
     // Allocating borders
 
     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
-    /*
+
     vector<Model::Element *> borders;
     for(int i = 0; i < 91; i++)
     {
-        borders.push_back(new Model::Element("../assets/sprites/border.sprite"));
+        borders.push_back(new Model::Element("../assets/sprites/border.sprite", Model::ElementType::GROUND));
         (borders.back())->update(3 + 5 * (i / 13), 25 + 7 * (i % 13));
     }
-    */
+
     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
 
@@ -88,19 +90,23 @@ int main()
     // TODO: Call this from Screen object
 
     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
-    /*
+
     for(int i = 0; i < 91; i++)
         borders[i]->render();
-    */
+
     // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########
 
+    /*
     move(0, 0);
     printw("The pressed key is ");
     attron(A_BOLD);
+    */
+
+    std::thread new_thread(game_recv_func, socket_fd, game);
 
     while(!finish)
     {
-        string buffer;
+        string buffer_out;
         /*
         ########## REMOVE ##########
         char c;
@@ -113,15 +119,18 @@ int main()
         if(keyboard->get_key(&c) == true)
         ########## REMOVE ##########
         */
+
         if(keyboard->is_there_a_new_key() == true)
         {
             // ########## DEBUG PURPOSES ONLY ##########
+            /*
             move(0, 19);
             echochar(keyboard->get_key());
+            */
             // ########## DEBUG PURPOSES ONLY ##########
 
-            buffer = keyboard->serialize();
-            send(socket_fd, buffer.c_str(), 128, 0);
+            buffer_out = keyboard->serialize();
+            send(socket_fd, buffer_out.c_str(), 128, 0);
 
             /* ########## REMOVE ##########
             switch(c)
@@ -208,10 +217,18 @@ int main()
 
         }
         */
+
+            /*
+            recv(socket_fd, input_buffer, 128, 0);
+
+            game->unserialize(input_buffer);
+            game->render();
+            */
         }
 
+
         // Refreshing the screen at most 200 times per second
-        std::this_thread::sleep_for (std::chrono::milliseconds(5));
+        // std::this_thread::sleep_for (std::chrono::milliseconds(5));
         // TODO: Call this from Screen object
 
         // ########## NOT GOING TO BE USED ON CLIENT (AT LEAST BY NOW) ##########

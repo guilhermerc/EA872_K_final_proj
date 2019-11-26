@@ -1,6 +1,14 @@
 #include <fstream>
 #include <stdlib.h>
+#include <string>
 #include <thread>
+#include <vector>
+
+#include <ncurses.h>
+
+
+#include "json.hpp"
+using json = nlohmann::json;
 
 #include "bomb_explosion_func.hpp"
 #include "game.hpp"
@@ -229,3 +237,57 @@ void Game::render()
         }
     }
 };
+
+std::string Game::serialize()
+{
+    json j, state;
+
+    j["l"] = this->map.l;
+    j["c"] = this->map.c;
+
+    for(int i = 0; i < this->map.l; i++)
+    {
+        for(int j = 0; j < this->map.c; j++)
+        {
+            state.push_back((int)this->map.state[i][j]);
+
+            /* ########## REMOVE ##########
+            // TODO: REMOVE HARDCODED VALUES
+            this->elems[this->map.state[i][j]]->update(4 + 5 * i, 26 + 7 * j);
+            this->elems[this->map.state[i][j]]->render();
+            */ // ########## REMOVE ##########
+        }
+    }
+
+    j["state"] = state;
+
+    return j.dump();
+}
+
+void Game::unserialize(char * buffer)
+{
+    std::string buffer_aux(buffer);
+
+    json j, state;
+    j = json::parse(buffer_aux);
+
+    j["l"].get_to(this->map.l);
+    j["c"].get_to(this->map.c);
+    state = j["state"];
+
+    for(int i = 0, aux = 0; i < this->map.l; i++)
+    {
+        for(int j = 0; j < this->map.c; j++)
+        {
+            this->map.state[i][j] = state.at(aux);
+            aux++;
+
+            /* ########## REMOVE ##########
+            // TODO: REMOVE HARDCODED VALUES
+            this->elems[this->map.state[i][j]]->update(4 + 5 * i, 26 + 7 * j);
+            this->elems[this->map.state[i][j]]->render();
+            */ // ########## REMOVE ##########
+        }
+    }
+
+}

@@ -54,17 +54,13 @@ std::string Keyboard::serialize()
     j["key"] = this->key;
     this->processed = true;
 
-    // ########## DEBUG PURPOSES ONLY ##########
-    move(1, 19); printw("                    ");
-    move(1, 19); printw(j.dump().c_str());
-    // ########## DEBUG PURPOSES ONLY ##########
-
     return j.dump();
 }
 
 void Keyboard::unserialize(char * buffer)
 {
     json j;
+
     j = json::parse(buffer);
     j["key"].get_to(this->key);
 }

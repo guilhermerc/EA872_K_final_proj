@@ -32,6 +32,8 @@ namespace Model
             void update_player(Controller::ActionType type);
             void update_bomb(Controller::ActionType type);
             void render();
+            std::string serialize();
+            void unserialize(char * buffer);
     };
 
 }
