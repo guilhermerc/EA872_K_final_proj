@@ -21,7 +21,7 @@ void kboard_recv_func(int connection_fd, int player_idx, Model::Keyboard * keybo
         // WAITING FOR KEYBOARD DATA
         // #####################################################################
         if(recv(connection_fd, input_buffer, 128, 0) <= 0)  break;
-        printf("[kboard_recv_thread] Player %d sent: %s\n", player_idx, input_buffer);
+        //printf("[kboard_recv_thread] Player %d sent: %s\n", player_idx, input_buffer);
         // #####################################################################
 
 
