@@ -63,18 +63,22 @@ void Element::update(int x_pos, int y_pos)
     this->y_pos = y_pos;
 }
 
-void Element::render()
+void Element::render(bool is_this_my_player)
 {
 	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(3, COLOR_GREEN, COLOR_BLACK);
-	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_RED, COLOR_BLACK);
 
 	if(this->et == ElementType::PLAYER_U ||
 		this->et == ElementType::PLAYER_R ||
 		this->et == ElementType::PLAYER_D ||
 		this->et == ElementType::PLAYER_L)
 	{
-		attron(COLOR_PAIR(1));
+        if(is_this_my_player == true)
+            attron(COLOR_PAIR(1));
+        else
+            attron(COLOR_PAIR(4));
 	}
 	else if(this->et == ElementType::BOMB ||
 			this->et == ElementType::EXPLOSION)
@@ -100,7 +104,10 @@ void Element::render()
 		this->et == ElementType::PLAYER_D ||
 		this->et == ElementType::PLAYER_L)
 	{
-		attroff(COLOR_PAIR(1));
+        if(is_this_my_player == true)
+            attroff(COLOR_PAIR(1));
+        else
+            attroff(COLOR_PAIR(4));
 	}
 	else if(this->et == ElementType::BOMB ||
 			this->et == ElementType::EXPLOSION)

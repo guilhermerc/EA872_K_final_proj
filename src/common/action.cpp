@@ -14,18 +14,27 @@ Action::~Action()
 }
 
 // Acts like a wrapper/proxy
-void Action::perform(ActionType type)
+int Action::perform(ActionType type, int value)
 {
+    int index;
     switch(type)
     {
         case MOVE_UP:
         case MOVE_RIGHT:
         case MOVE_DOWN:
         case MOVE_LEFT:
-            this->game->update_player(type);
+            this->game->update_player(type, value);
             break;
         case SPAWN_BOMB:
-            this->game->update_bomb(type);
+            this->game->update_bomb(type, value);
+            break;
+        case ADD_PLAYER:
+            index = this->game->add_player(value);
+            break;
+        case REMOVE_PLAYER:
+            this->game->remove_player(value);
             break;
     }
+
+    return index;
 }

@@ -19,7 +19,7 @@ namespace Controller
             ~Action();
             // TODO: Think about implementing init/stop methods to better handle
             // the thread that performs bomb explosion
-            void perform(ActionType type);
+            int perform(ActionType type, int player_idx);
     };
 
 }

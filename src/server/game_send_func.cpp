@@ -1,4 +1,3 @@
-// TODO: Discover which one really matters
 #include <stdio.h>
 #include <unistd.h>     // #
 #include <sys/types.h>
@@ -7,41 +6,52 @@
 #include <arpa/inet.h>  // #
 #include <thread>
 
-#include "game.hpp"
+#include "json.hpp"
+using json = nlohmann::json;
+
 #include "game_send_func.hpp"
 
-void game_send_func(int socket_fd, Model::Game * game)
+void game_send_func(Model::Game * game)
 {
     while(true)
     {
-        std::string buffer_out;
+        std::string buffer;
+        json j;
 
-        buffer_out = game->serialize();
-        send(socket_fd, buffer_out.c_str(), 512, 0);
+        // SERIALIZING GAME'S STATE
+        // #####################################################################
+        buffer = game->serialize();
+        // #####################################################################
 
-        std::this_thread::sleep_for (std::chrono::milliseconds(100));
-    }
-
-    /*
-    char c;
-    while((*running) == true)
-    {
-        // If the last character is already processed, then tries to read a new
-        // one
-        if((*processed) == true)
+        // BROADCASTING GAME'S STATE
+        // #####################################################################
+        for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
         {
-            c = getch();
-            if(c != ERR && c >= 0 && c <= 127)  // 0 - 127 correspond to ASCII
-                                                // (not extended) chars
+            if(game->players[i].empty == false)
             {
-                (*key) = c;
-                (*processed) = false;
+                j["alive"] = game->players[i].alive;
+                send(game->players[i].fd, j.dump().c_str(), 512, 0);
+                //printf("[game_send_thread] I've informed player %d whether he/she is alive or not.\n", i);
+
+                // Player has died
+                if(game->players[i].alive == false)
+                {
+                    game->players[i].empty = true;
+                    close(game->players[i].fd);
+                    printf("[game_send_thread] Player %d has died.\n", i);
+                }
+                else
+                {
+                    send(game->players[i].fd, buffer.c_str(), 512, 0);
+                    //printf("[game_send_thread] I've broadcasted game's state to player %d.\n", i);
+                }
             }
-            else
-                (*key) = 0;
         }
-        // TODO: Is this rate really necessary?
-        std::this_thread::sleep_for (std::chrono::milliseconds(10));
+        // #####################################################################
+
+        // BROADCASTING IS MADE AT EACH 100 MS
+        // #####################################################################
+        std::this_thread::sleep_for (std::chrono::milliseconds(100));
+        // #####################################################################
     }
-    */
 }

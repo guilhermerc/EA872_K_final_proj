@@ -1,56 +1,37 @@
-CC = g++
-CC_FLAGS = -std=c++11 -lncurses -lpthread
-BIN = main
-COMMON_DIR = ../common
-INCLUDE_DIR = ../include
+# VARIABLES
+##########################################################################
+BIN = 				main
 
-# Classes
-ELEMENT = $(COMMON_DIR)/element
-GAME = $(COMMON_DIR)/game
-KEYBOARD = $(COMMON_DIR)/keyboard
-SCREEN = $(COMMON_DIR)/screen
+COMMON_DIR = 		../common
+##########################################################################
 
-# Headers without corresponding Classes
-ELEMENT_TYPE_HPP = $(INCLUDE_DIR)/element_type.hpp
+# MAKEFILE INCLUDES
+##########################################################################
+include $(COMMON_DIR)/Makefile
+##########################################################################
 
-# Functions
-BOMB_EXPLOSION_FUNC = $(COMMON_DIR)/bomb_explosion_func
-GAME_RECV_FUNC = game_recv_func
-KEYBOARD_FUNC = $(COMMON_DIR)/keyboard_func
+# FUNCTIONS USED ONLY ON CLIENT SIDE
+##########################################################################
+GAME_RECV_FUNC =	game_recv_func
+##########################################################################
 
-RM = rm
-RM_FLAGS = --force
-
+# RULES
+##########################################################################
 all: $(BIN)
 
 run: all
 	./$(BIN)
 
-$(BIN): main.cpp $(BOMB_EXPLOSION_FUNC) $(ELEMENT) $(GAME) $(GAME_RECV_FUNC) $(KEYBOARD_FUNC) $(KEYBOARD) $(SCREEN) $(ELEMENT_TYPE_HPP)
-	$(CC) $< $(BOMB_EXPLOSION_FUNC).o $(ELEMENT).o $(GAME).o $(GAME_RECV_FUNC).o $(KEYBOARD_FUNC).o $(KEYBOARD).o $(SCREEN).o $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@
+$(BIN): main.cpp $(GAME_RECV_FUNC) common-all
+	$(CC) $< $(COMMON_DIR)/$(ACTION).o $(COMMON_DIR)/$(ELEMENT).o \
+	$(COMMON_DIR)/$(GAME).o $(COMMON_DIR)/$(KEYBOARD).o \
+	$(COMMON_DIR)/$(SCREEN).o $(COMMON_DIR)/$(KEYBOARD_FUNC).o \
+	$(COMMON_DIR)/$(BOMB_EXPLOSION_FUNC).o $(GAME_RECV_FUNC).o $(CC_FLAGS) \
+	-I$(INCLUDE_DIR) -o$@
 
-## TODO: Check if it is possible to simplify something using an array
-
-$(BOMB_EXPLOSION_FUNC): $(BOMB_EXPLOSION_FUNC).cpp ## $(BOMB_EXPLOSION_FUNC).hpp
+$(GAME_RECV_FUNC): $(GAME_RECV_FUNC).cpp $(INCLUDE_DIR)/$(GAME_RECV_FUNC).hpp
 	$(CC) -c $< $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@.o
 
-$(ELEMENT): $(ELEMENT).cpp ## $(ELEMENT).hpp
-	$(CC) -c $< $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@.o
-
-$(GAME): $(GAME).cpp ## $(GAME).hpp
-	$(CC) -c $< $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@.o
-
-$(GAME_RECV_FUNC): $(GAME_RECV_FUNC).cpp ## $(GAME_RECV_FUNC).hpp
-	$(CC) -c $< $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@.o
-
-$(KEYBOARD_FUNC): $(KEYBOARD_FUNC).cpp ## $(KEYBOARD_FUNC).hpp
-	$(CC) -c $< $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@.o
-
-$(KEYBOARD): $(KEYBOARD).cpp ## $(KEYBOARD).hpp
-	$(CC) -c $< $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@.o
-
-$(SCREEN): $(SCREEN).cpp ## $(SCREEN).hpp
-	$(CC) -c $< $(CC_FLAGS) -I$(INCLUDE_DIR) -o$@.o
-
-clean:
-	$(RM) $(RM_FLAGS) $(BIN) $(BOMB_EXPLOSION_FUNC).o $(ELEMENT).o $(GAME).o $(GAME_RECV_FUNC).o $(KEYBOARD_FUNC).o $(KEYBOARD).o $(SCREEN).o
+clean: common-clean
+	$(RM) $(RM_FLAGS) $(BIN) $(GAME_RECV_FUNC).o
+##########################################################################

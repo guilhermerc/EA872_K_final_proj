@@ -3,7 +3,7 @@
 
 namespace Controller
 {
-    
+
     // Types of action coming from user
     enum ActionType
     {
@@ -11,7 +11,9 @@ namespace Controller
         MOVE_RIGHT,
         MOVE_DOWN,
         MOVE_LEFT,
-        SPAWN_BOMB
+        SPAWN_BOMB,
+        ADD_PLAYER,
+        REMOVE_PLAYER
     };
 
 }

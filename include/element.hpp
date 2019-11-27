@@ -29,7 +29,7 @@ namespace Model
             // TODO: update and render should merge, as there's no need to hold
             // x_pos and y_pos
             void update(int x_pos, int y_pos);
-            void render();
+            void render(bool is_this_my_player);
     };
 
 }

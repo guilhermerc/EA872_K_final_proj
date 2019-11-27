@@ -7,8 +7,18 @@
 #include "element.hpp"
 #include "element_type.hpp"
 
+#define MAX_NUMBER_OF_PLAYERS   16
+
 namespace Model
 {
+    struct player
+    {
+        bool empty;
+        bool alive;
+        int fd;
+        int x_pos;
+        int y_pos;
+    };
 
     class Game
     {
@@ -18,20 +28,18 @@ namespace Model
                 int l, c;
                 ElementType ** state;
             } map;
-            struct player
-            {
-                int x_pos;
-                int y_pos;
-            } player;
             std::map<ElementType, Element *> elems;
             void load_map(const char * map_path);
             void load_sprites();
 
         public:
+            player players[MAX_NUMBER_OF_PLAYERS];
             Game(const char * map_path);
-            void update_player(Controller::ActionType type);
-            void update_bomb(Controller::ActionType type);
-            void render();
+            int add_player(int fd);
+            void remove_player(int player_idx);
+            void update_player(Controller::ActionType type, int player_idx);
+            void update_bomb(Controller::ActionType type, int player_idx);
+            void render(int player_idx);
             std::string serialize();
             void unserialize(char * buffer);
     };

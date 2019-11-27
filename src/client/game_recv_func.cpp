@@ -1,46 +1,52 @@
-// TODO: Discover which one really matters
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>     // #
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h> // #
 #include <arpa/inet.h>  // #
 
-#include "game.hpp"
+#include "json.hpp"
+using json = nlohmann::json;
+
 #include "game_recv_func.hpp"
 
-void game_recv_func(int socket_fd, Model::Game * game)
+extern bool alive;
+
+void game_recv_func(int socket_fd, Model::Game * game, int player_idx)
 {
-    char input_buffer[512];
-
-    while(true)
+    while(alive)
     {
+        char input_buffer[512];
+        json j;
+
+        // AM I STILL ALIVE?
+        // #####################################################################
         recv(socket_fd, input_buffer, 512, 0);
+        std::string aux(input_buffer);
+        j = json::parse(aux);
+        j["alive"].get_to(alive);
+        // #####################################################################
 
+        if(!alive)  break;
+
+        // WAITING FOR GAME'S STATE
+        // #####################################################################
+        // printf("[game_recv_thread] Waiting for game's state update!\n");
+        if(recv(socket_fd, input_buffer, 512, 0) <= 0)  break;
+        // printf("[game_recv_thread] Game's state received: %s\n", input_buffer);
+        // #####################################################################
+
+        // UNSERIALIZING GAME'S STATE
+        // #####################################################################
         game->unserialize(input_buffer);
-        game->render();
-    }
+        // printf("[game_recv_thread] Game's state unserialized!\n");
+        // #####################################################################
 
-    /*
-    char c;
-    while((*running) == true)
-    {
-        // If the last character is already processed, then tries to read a new
-        // one
-        if((*processed) == true)
-        {
-            c = getch();
-            if(c != ERR && c >= 0 && c <= 127)  // 0 - 127 correspond to ASCII
-                                                // (not extended) chars
-            {
-                (*key) = c;
-                (*processed) = false;
-            }
-            else
-                (*key) = 0;
-        }
-        // TODO: Is this rate really necessary?
-        std::this_thread::sleep_for (std::chrono::milliseconds(10));
+        // RENDERING GAME'S STATE
+        // #####################################################################
+        game->render(player_idx);
+        // printf("[game_recv_thread] Game's state rendered!\n");
+        // #####################################################################
     }
-    */
 }
