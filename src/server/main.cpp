@@ -18,8 +18,14 @@ using namespace std;
 
 bool finish = false;
 
-int main()
+int main(int argc, char * argv[])
 {
+    if(argc < 2)
+    {
+        printf("Usage: ./main <SERVER_IP>\n");
+        return 0;
+    }
+
     signal(SIGPIPE, SIG_IGN);
 
     // INSTANTIATING MODEL OBJECTS
@@ -47,7 +53,7 @@ int main()
 
     myself.sin_family = AF_INET;
     myself.sin_port = htons(3001);
-    inet_aton("127.0.0.1", &(myself.sin_addr));
+    inet_aton(argv[1], &(myself.sin_addr));
 
     printf("[main_thread] Attempting to open port 3001...\n");
 

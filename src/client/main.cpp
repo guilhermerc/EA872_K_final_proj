@@ -22,8 +22,14 @@ using namespace std;
 
 bool alive = true;
 
-int main()
+int main(int argc, char * argv[])
 {
+    if(argc < 2)
+    {
+        printf("Usage: ./main <SERVER_IP>\n");
+        return 0;
+    }
+
     signal(SIGPIPE, SIG_IGN);
 
     // INSTANTIATING MODEL OBJECTS
@@ -85,7 +91,7 @@ int main()
 
     target.sin_family = AF_INET;
     target.sin_port = htons(3001);
-    inet_aton("127.0.0.1", &(target.sin_addr));
+    inet_aton(argv[1], &(target.sin_addr));
 
     // printf("[main thread] Attempting to connect to server...\n");
     while(connect(socket_fd, (struct sockaddr*) &target, sizeof(target)) != 0)
