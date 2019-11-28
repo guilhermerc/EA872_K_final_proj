@@ -21,12 +21,9 @@ namespace Model
             void init();
             void stop();
             bool is_there_a_new_key();
+            char get_key();
             std::string serialize();
             void unserialize(char * buffer);
-
-            // ########## DEBUG PURPOSES ONLY ##########
-            char get_key();
-            // ########## DEBUG PURPOSES ONLY ##########
     };
 
 }

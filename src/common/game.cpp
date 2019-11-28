@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <fstream>
-#include <stdlib.h>
 #include <string>
 #include <thread>
 #include <vector>
@@ -77,6 +77,7 @@ void Game::load_sprites()
 
 }
 
+// CHECKED
 Game::Game(const char * map_path)
 {
     this->load_map(map_path);
@@ -90,6 +91,16 @@ Game::Game(const char * map_path)
         this->players[i].x_pos = -1;
         this->players[i].y_pos = -1;
     }
+}
+
+// CHECKED
+void Game::init()
+{
+}
+
+// CHECKED
+void Game::stop()
+{
 }
 
 int Game::add_player(int fd)
@@ -323,8 +334,8 @@ std::string Game::serialize()
 void Game::unserialize(char * buffer)
 {
     std::string buffer_aux(buffer);
-
     json j, state;
+
     j = json::parse(buffer_aux);
 
     j["c"].get_to(this->map.c);

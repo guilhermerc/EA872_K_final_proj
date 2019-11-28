@@ -3,7 +3,8 @@
 
 namespace View
 {
-
+    
+    // CHECKED
     class Screen
     {
         private:

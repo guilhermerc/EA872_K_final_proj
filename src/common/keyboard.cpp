@@ -1,5 +1,3 @@
-#include <ncurses.h>
-
 #include "json.hpp"
 using json = nlohmann::json;
 
@@ -8,6 +6,7 @@ using json = nlohmann::json;
 
 using namespace Model;
 
+// CHECKED
 Keyboard::Keyboard()
 {
     this->key = 0;
@@ -15,38 +14,42 @@ Keyboard::Keyboard()
     this->running = false;
 }
 
+// CHECKED
 Keyboard::~Keyboard()
 {
     this->stop();
 }
 
+// CHECKED
 void Keyboard::init()
 {
     this->running = true;
-    std::thread new_thread(keyboard_func, &(this->key), &(this->processed), &(this->running));
-    // TODO: Check if this is indeed the best way of "assigning threads"
-    (this->kboard_thread).swap(new_thread);
+    std::thread keyboard_thread(keyboard_func, &(this->key), &(this->processed), &(this->running));
+    /* TODO: Check if this is indeed the best way of "assigning threads" */
+    (this->kboard_thread).swap(keyboard_thread);
 }
 
+// CHECKED
 void Keyboard::stop()
 {
     this->running = false;
     this->kboard_thread.join();
 }
 
-// Returns 'true' if a non-processed key is buffered, 'false' otherwise.
+// CHECKED
+/* Returns 'true' if a non-processed key is buffered ('false' otherwise). */
 bool Keyboard::is_there_a_new_key()
 {
     return !this->processed;
 }
 
-// ########## DEBUG PURPOSES ONLY ##########
+// CHECKED
 char Keyboard::get_key()
 {
     return this->key;
 }
-// ########## DEBUG PURPOSES ONLY ##########
 
+// CHECKED
 std::string Keyboard::serialize()
 {
     json j;

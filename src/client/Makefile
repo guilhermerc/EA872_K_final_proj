@@ -19,8 +19,8 @@ GAME_RECV_FUNC =	game_recv_func
 ##########################################################################
 all: $(BIN)
 
-run: all
-	./$(BIN)
+run-local: all
+	./$(BIN) 127.0.0.1
 
 $(BIN): main.cpp $(GAME_RECV_FUNC) common-all
 	$(CC) $< $(COMMON_DIR)/$(ACTION).o $(COMMON_DIR)/$(ELEMENT).o \
