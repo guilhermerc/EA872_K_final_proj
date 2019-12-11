@@ -4,23 +4,23 @@ O objetivo desta primeira versão do projeto é desenvolver um jogo de plataform
 no estilo Bomberman no qual um jogador deve ser capaz de
 * se mover num mapa composto por blocos de "chão" e de "pilares"
    (instransponíveis)
-* spawnar bombas e chutá-las 
+* spawnar bombas e chutá-las
 * morrer com a explosão da própria bomba
 
 Apesar de não haver nenhum desafio nesta versão, as funcionalidades acima sustentarão a
 versão final do jogo, que será *MMO (massive multiplayer online)*.
 
-## Como jogar a versão cliente - servidor 
+## Como jogar a versão cliente - servidor
 
-Para executar o cliente, basta executar o comando `make run -C client/`.
+Para executar o servidor, basta executar o comando `make run-local -C server/`.
 
-Para executar o servidor, basta executar o comando `make run -C server/`.
+Para executar o cliente, basta executar o comando `make run-local -C client/`.
+
 
 No cliente:
 
 * **w**, **d**, **s** e **a** movimentam o personagem
 * **j** spawna uma bomba (no momento, ilimitado) na orientação do jogador
-* **q** fecha o jogo
 
 ![Captura de tela de 2019-10-09 15-19-26](https://user-images.githubusercontent.com/22827202/66509484-85ff8980-eaa9-11e9-9f89-7f9d855f7911.png)
 
@@ -31,7 +31,7 @@ No cliente:
 ### Semana 1: 19/09 -> 25/09
 
 - [x] fixar um tamanho de tela
-- [x] fixar um tamanho de bloco 
+- [x] fixar um tamanho de bloco
 - [x] fixar um tamanho de mapa
 - [x] definir um formato de especificação de blocos em arquivos
 - [x] "desenhar" bloco do chão e do pilar (em arquivo .csv)
@@ -45,7 +45,7 @@ No cliente:
 - [x] spawnar bomba no bloco dado pela orientação do jogador e fazer ela sumir
   após n (definir) ticks (por enqt. sem interação jogador - bomba)
 
-### Semana 3: 03/10 -> 09/10 
+### Semana 3: 03/10 -> 09/10
 
 - [ ] implementar o chute (interação jogador - bomba)
 - [x] "desenhar" bloco de explosão
