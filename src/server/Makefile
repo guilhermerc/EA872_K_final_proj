@@ -22,8 +22,8 @@ KBOARD_RECV_FUNC =		kboard_recv_func
 ##########################################################################
 all: $(BIN)
 
-run: all
-	./$(BIN)
+run-local: all
+	./$(BIN) 127.0.0.1
 
 $(BIN): main.cpp $(CONN_MGMT_FUNC) $(GAME_SEND_FUNC) \
 	$(KBOARD_RECV_FUNC) common-all
